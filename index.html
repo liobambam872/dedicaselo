@@ -14,7 +14,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
       font-family: "Segoe UI", Arial, sans-serif;
       text-align: center;
       color: white;
@@ -133,7 +133,7 @@
       padding: 24px;
       background:
         radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 35%),
-        linear-gradient(180deg, rgba(38, 122, 59, 0.82), rgba(77, 163, 92, 0.78));
+        linear-gradient(180deg, rgba(38, 122, 59, 0.88), rgba(77, 163, 92, 0.82));
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
@@ -521,6 +521,30 @@
       font-size: 13px;
     }
 
+    .boton-musica {
+      margin-top: 15px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ffffff, #d9ffe0);
+      color: #2f7d3d;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    }
+
+    .boton-musica:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    #player {
+      margin-top: 12px;
+      display: none;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
     .flotante {
       position: fixed;
       bottom: -60px;
@@ -540,14 +564,6 @@
       box-shadow: 0 0 14px rgba(255,255,255,0.95);
       z-index: 2;
       animation: chispa 6s linear infinite;
-    }
-
-    #player {
-      position: absolute;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      opacity: 0.01;
     }
 
     @keyframes aparecer {
@@ -598,6 +614,10 @@
     }
 
     @media (max-width: 480px) {
+      body {
+        overflow-y: auto;
+      }
+
       .sol {
         width: 78px;
         height: 78px;
@@ -624,6 +644,10 @@
 
       .mensaje-principal {
         font-size: 21px;
+      }
+
+      .mensaje-secundario {
+        font-size: 16px;
       }
     }
   </style>
@@ -706,6 +730,10 @@
       <p class="mensaje-secundario" id="mensajeSecundario"></p>
       <p class="nota" id="notaMusica"></p>
 
+      <button onclick="reproducirMusica()" class="boton-musica">
+        🎵 Reproducir música
+      </button>
+
       <div id="player"></div>
     </section>
   </main>
@@ -736,17 +764,19 @@
 
       mensajePrincipal: "Si nunca te enviaron una flor digital,\naquí tienes tu flor digital 💚",
       mensajeSecundario: "Este pequeño oso quiso traerte una flor para sacarte una sonrisa. A veces los detalles más simples son los que más bonito se sienten.",
-      notaMusica: "La música comienza después de tocar “Ver regalo”.",
+      notaMusica: "Después de abrir el regalo, toca el botón “Reproducir música”.",
 
       /*
         Coloca aquí el ID de YouTube de:
         Déjame Un Beso - Salsa Kids
 
         Ejemplo:
-        https://www.youtube.com/watch?v=ABC123XYZ
-        ID = ABC123XYZ
+        Link: https://www.youtube.com/watch?v=ABC123XYZ
+        ID: ABC123XYZ
+
+        No pegues el link completo, solo el ID.
       */
-      youtubeVideoID: "uQGatx-kUmk&list=RDuQGatx-kUmk&start_radio=1"
+      youtubeVideoID: "REEMPLAZA_AQUI_EL_ID"
     };
 
     /*
@@ -778,21 +808,30 @@
         inicio.style.display = "none";
         contenido.style.display = "flex";
       }, 700);
+    }
 
+    function reproducirMusica() {
       const videoID = CONFIGURACION_DEL_REGALO.youtubeVideoID;
 
-      if (videoID && videoID !== "REEMPLAZA_AQUI_EL_ID") {
-        document.getElementById("player").innerHTML = `
-          <iframe
-            width="1"
-            height="1"
-            src="https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}"
-            title="Música de fondo"
-            frameborder="0"
-            allow="autoplay; encrypted-media">
-          </iframe>
-        `;
+      if (!videoID || videoID === "uQGatx-kUmk&list=RDuQGatx-kUmk&start_radio=1") {
+        alert("Falta colocar el ID del video de YouTube.");
+        return;
       }
+
+      const player = document.getElementById("player");
+      player.style.display = "block";
+
+      player.innerHTML = `
+        <iframe
+          width="100%"
+          height="120"
+          src="https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}"
+          title="Música de fondo"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      `;
     }
   </script>
 
