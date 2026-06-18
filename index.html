@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flor digital para ti</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: "Segoe UI", Arial, sans-serif;
+      text-align: center;
+      color: white;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(255,255,255,0.35), transparent 24%),
+        radial-gradient(circle at 80% 18%, rgba(173,255,220,0.25), transparent 30%),
+        linear-gradient(180deg, #8fd3ff 0%, #72c07a 52%, #3f8f46 100%);
+    }
+
+    .cielo-brillo {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 75% 30%, rgba(255,255,255,0.7) 0 2px, transparent 3px),
+        radial-gradient(circle at 45% 12%, rgba(255,255,255,0.6) 0 1.5px, transparent 3px),
+        radial-gradient(circle at 85% 70%, rgba(255,255,255,0.55) 0 1.5px, transparent 3px);
+      opacity: 0.35;
+      animation: brilloFondo 6s ease-in-out infinite alternate;
+    }
+
+    .sol {
+      position: fixed;
+      top: 36px;
+      right: 36px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff9c4, #ffd54f, #ffb300);
+      box-shadow: 0 0 70px rgba(255, 213, 79, 0.95);
+      z-index: 1;
+      animation: latidoSol 4s ease-in-out infinite;
+    }
+
+    .nube {
+      position: fixed;
+      width: 140px;
+      height: 52px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 50px;
+      z-index: 1;
+      filter: blur(0.3px);
+      animation: moverNube 20s linear infinite;
+    }
+
+    .nube::before,
+    .nube::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,0.78);
+      border-radius: 50%;
+    }
+
+    .nube::before {
+      width: 52px;
+      height: 52px;
+      left: 18px;
+      top: -18px;
+    }
+
+    .nube::after {
+      width: 64px;
+      height: 64px;
+      right: 20px;
+      top: -24px;
+    }
+
+    .nube.uno {
+      top: 90px;
+      left: -180px;
+      animation-delay: 0s;
+    }
+
+    .nube.dos {
+      top: 170px;
+      left: -240px;
+      transform: scale(0.9);
+      animation-delay: 7s;
+    }
+
+    .colina {
+      position: fixed;
+      bottom: 0;
+      border-radius: 50% 50% 0 0;
+      z-index: 1;
+    }
+
+    .colina.uno {
+      left: -10%;
+      width: 60%;
+      height: 180px;
+      background: #57a95f;
+    }
+
+    .colina.dos {
+      right: -8%;
+      width: 55%;
+      height: 220px;
+      background: #4c9b54;
+    }
+
+    .colina.tres {
+      left: 25%;
+      width: 50%;
+      height: 140px;
+      background: #3d8a45;
+    }
+
+    .inicio {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 35%),
+        linear-gradient(180deg, rgba(38, 122, 59, 0.82), rgba(77, 163, 92, 0.78));
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .inicio.ocultar {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
+    }
+
+    .caja-inicio,
+    .tarjeta {
+      width: 100%;
+      max-width: 560px;
+      padding: 34px 24px;
+      border-radius: 36px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.32);
+      backdrop-filter: blur(16px);
+      box-shadow:
+        0 30px 85px rgba(0,0,0,0.28),
+        inset 0 0 24px rgba(255,255,255,0.10);
+    }
+
+    .caja-inicio h1 {
+      margin: 0 0 14px;
+      font-size: 38px;
+      color: #f6fff4;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .caja-inicio p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #ecfff0;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 40px;
+      background: linear-gradient(135deg, #ffffff, #d9ffe0);
+      color: #2f7d3d;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 18px 38px rgba(0,0,0,0.30);
+    }
+
+    .contenido {
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      z-index: 10;
+      animation: aparecer 1s ease forwards;
+    }
+
+    .tarjeta {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tarjeta::before {
+      content: "";
+      position: absolute;
+      inset: -70px;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.16), transparent 24%),
+        radial-gradient(circle at 80% 8%, rgba(185,255,197,0.22), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(255,255,255,0.10), transparent 34%);
+    }
+
+    h2 {
+      margin: 0 0 6px;
+      font-size: 35px;
+      color: #f8fff5;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.28);
+    }
+
+    .subtitulo {
+      margin: 0 0 12px;
+      color: #ebffec;
+      font-size: 16px;
+    }
+
+    .escena {
+      width: 360px;
+      height: 345px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .pasto {
+      position: absolute;
+      bottom: 0;
+      left: 35px;
+      width: 290px;
+      height: 48px;
+      background: rgba(255,255,255,0.14);
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    .capibara {
+      position: absolute;
+      left: 75px;
+      bottom: 28px;
+      width: 210px;
+      height: 190px;
+      animation: respirar 3s infinite ease-in-out;
+      filter: drop-shadow(0 18px 14px rgba(0,0,0,0.22));
+    }
+
+    .cuerpo {
+      position: absolute;
+      left: 16px;
+      bottom: 8px;
+      width: 180px;
+      height: 118px;
+      background: linear-gradient(180deg, #b98559, #93623f);
+      border-radius: 70px 90px 70px 70px;
+      z-index: 1;
+    }
+
+    .panza {
+      position: absolute;
+      left: 58px;
+      bottom: 26px;
+      width: 86px;
+      height: 60px;
+      background: rgba(241, 212, 182, 0.75);
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .cabeza {
+      position: absolute;
+      right: 12px;
+      top: 18px;
+      width: 86px;
+      height: 82px;
+      background: linear-gradient(180deg, #b98559, #93623f);
+      border-radius: 32px 40px 34px 30px;
+      z-index: 3;
+    }
+
+    .oreja {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #8c5b38;
+      border-radius: 50%;
+      top: -4px;
+    }
+
+    .oreja.uno { left: 14px; }
+    .oreja.dos { right: 14px; }
+
+    .ojo {
+      position: absolute;
+      top: 28px;
+      width: 7px;
+      height: 9px;
+      border-radius: 50%;
+      background: #2e1d14;
+      animation: parpadear 4s infinite;
+    }
+
+    .ojo.uno { left: 22px; }
+    .ojo.dos { right: 22px; }
+
+    .nariz {
+      position: absolute;
+      left: 29px;
+      bottom: 20px;
+      width: 28px;
+      height: 18px;
+      border-radius: 50%;
+      background: #6e442c;
+    }
+
+    .nariz::before,
+    .nariz::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      width: 4px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3c2619;
+    }
+
+    .nariz::before { left: 8px; }
+    .nariz::after { right: 8px; }
+
+    .boca {
+      position: absolute;
+      left: 30px;
+      bottom: 10px;
+      width: 26px;
+      height: 10px;
+      border-bottom: 2px solid #5c3927;
+      border-radius: 50%;
+    }
+
+    .pata {
+      position: absolute;
+      bottom: 0;
+      width: 30px;
+      height: 48px;
+      background: linear-gradient(180deg, #a57149, #845737);
+      border-radius: 18px;
+      z-index: 0;
+    }
+
+    .pata.uno { left: 46px; }
+    .pata.dos { left: 88px; }
+    .pata.tres { right: 58px; }
+    .pata.cuatro { right: 20px; }
+
+    .brazo {
+      position: absolute;
+      bottom: 42px;
+      width: 34px;
+      height: 56px;
+      background: linear-gradient(180deg, #a8744c, #875936);
+      border-radius: 18px;
+      z-index: 4;
+    }
+
+    .brazo.izq {
+      left: 52px;
+      transform: rotate(24deg);
+    }
+
+    .brazo.der {
+      right: 34px;
+      transform: rotate(-30deg);
+    }
+
+    .flor {
+      position: absolute;
+      left: 125px;
+      bottom: 78px;
+      width: 70px;
+      height: 110px;
+      z-index: 5;
+      animation: moverFlor 3.5s infinite ease-in-out;
+    }
+
+    .tallo {
+      position: absolute;
+      left: 31px;
+      bottom: 0;
+      width: 8px;
+      height: 68px;
+      background: linear-gradient(180deg, #8ff08e, #19813a);
+      border-radius: 10px;
+    }
+
+    .hoja {
+      position: absolute;
+      width: 28px;
+      height: 14px;
+      background: linear-gradient(135deg, #9df29b, #2e8d45);
+      border-radius: 20px 0 20px 0;
+    }
+
+    .hoja.uno {
+      left: 5px;
+      bottom: 28px;
+      transform: rotate(-28deg);
+    }
+
+    .hoja.dos {
+      right: 4px;
+      bottom: 42px;
+      transform: rotate(205deg);
+    }
+
+    .petalo-flor {
+      position: absolute;
+      width: 26px;
+      height: 42px;
+      left: 22px;
+      top: 0;
+      border-radius: 90% 90% 45% 45%;
+      transform-origin: 13px 34px;
+      background:
+        radial-gradient(circle at 35% 18%, rgba(255,255,255,0.9), transparent 22%),
+        linear-gradient(180deg, #ffd6ea 0%, #ff68b1 55%, #cc2a7d 100%);
+      box-shadow: inset 0 5px 8px rgba(255,255,255,0.26);
+    }
+
+    .petalo-flor:nth-child(1) { transform: rotate(0deg); }
+    .petalo-flor:nth-child(2) { transform: rotate(60deg); }
+    .petalo-flor:nth-child(3) { transform: rotate(120deg); }
+    .petalo-flor:nth-child(4) { transform: rotate(180deg); }
+    .petalo-flor:nth-child(5) { transform: rotate(240deg); }
+    .petalo-flor:nth-child(6) { transform: rotate(300deg); }
+
+    .centro-flor {
+      position: absolute;
+      top: 22px;
+      left: 21px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff4ac, #ffbf33, #a76400);
+      box-shadow: 0 0 14px rgba(255,204,90,0.8);
+      z-index: 2;
+    }
+
+    .mensaje-principal {
+      margin: 10px 0 8px;
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.45;
+      color: #f8fff5;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.28);
+    }
+
+    .mensaje-secundario {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #ecffef;
+    }
+
+    .nota {
+      margin-top: 13px;
+      color: #e2ffe5;
+      opacity: 0.88;
+      font-size: 13px;
+    }
+
+    .flotante {
+      position: fixed;
+      bottom: -60px;
+      z-index: 3;
+      font-size: 28px;
+      animation: subir 9s linear infinite;
+      opacity: 0.86;
+      pointer-events: none;
+    }
+
+    .chispa {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 0 14px rgba(255,255,255,0.95);
+      z-index: 2;
+      animation: chispa 6s linear infinite;
+    }
+
+    #player {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0.01;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes respirar {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.02); }
+    }
+
+    @keyframes moverFlor {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    @keyframes parpadear {
+      0%, 92%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    @keyframes moverNube {
+      from { transform: translateX(0); }
+      to { transform: translateX(140vw); }
+    }
+
+    @keyframes subir {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes chispa {
+      0% { transform: translateY(105vh) scale(0.6); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    @keyframes brilloFondo {
+      from { opacity: 0.25; }
+      to { opacity: 0.45; }
+    }
+
+    @keyframes latidoSol {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @media (max-width: 480px) {
+      .sol {
+        width: 78px;
+        height: 78px;
+        top: 24px;
+        right: 20px;
+      }
+
+      .caja-inicio,
+      .tarjeta {
+        max-width: 94vw;
+        padding: 28px 18px;
+      }
+
+      .caja-inicio h1,
+      h2 {
+        font-size: 30px;
+      }
+
+      .escena {
+        transform: scale(0.90);
+        margin-top: -8px;
+        margin-bottom: -18px;
+      }
+
+      .mensaje-principal {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cielo-brillo"></div>
+  <div class="sol"></div>
+  <div class="nube uno"></div>
+  <div class="nube dos"></div>
+
+  <div class="colina uno"></div>
+  <div class="colina dos"></div>
+  <div class="colina tres"></div>
+
+  <div class="chispa" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="chispa" style="left: 28%; animation-delay: 2s;"></div>
+  <div class="chispa" style="left: 46%; animation-delay: 4s;"></div>
+  <div class="chispa" style="left: 62%; animation-delay: 1s;"></div>
+  <div class="chispa" style="left: 80%; animation-delay: 3s;"></div>
+  <div class="chispa" style="left: 92%; animation-delay: 5s;"></div>
+
+  <div class="inicio" id="inicio">
+    <div class="caja-inicio">
+      <h1 id="tituloInicio"></h1>
+      <p id="mensajeInicio"></p>
+      <button onclick="abrirRegalo()" id="textoBoton"></button>
+    </div>
+  </div>
+
+  <main class="contenido" id="contenido">
+    <section class="tarjeta">
+      <h2 id="tituloPrincipal"></h2>
+      <p class="subtitulo" id="subtituloPrincipal"></p>
+
+      <div class="escena">
+        <div class="pasto"></div>
+
+        <div class="capibara">
+          <div class="cuerpo"></div>
+          <div class="panza"></div>
+
+          <div class="pata uno"></div>
+          <div class="pata dos"></div>
+          <div class="pata tres"></div>
+          <div class="pata cuatro"></div>
+
+          <div class="brazo izq"></div>
+          <div class="brazo der"></div>
+
+          <div class="cabeza">
+            <div class="oreja uno"></div>
+            <div class="oreja dos"></div>
+            <div class="ojo uno"></div>
+            <div class="ojo dos"></div>
+            <div class="nariz"></div>
+            <div class="boca"></div>
+          </div>
+
+          <div class="flor">
+            <div class="petalo-flor"></div>
+            <div class="petalo-flor"></div>
+            <div class="petalo-flor"></div>
+            <div class="petalo-flor"></div>
+            <div class="petalo-flor"></div>
+            <div class="petalo-flor"></div>
+            <div class="centro-flor"></div>
+            <div class="tallo"></div>
+            <div class="hoja uno"></div>
+            <div class="hoja dos"></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mensaje-principal" id="mensajePrincipal"></p>
+      <p class="mensaje-secundario" id="mensajeSecundario"></p>
+      <p class="nota" id="notaMusica"></p>
+
+      <div id="player"></div>
+    </section>
+  </main>
+
+  <div class="flotante" style="left: 10%; animation-delay: 0s;">🌿</div>
+  <div class="flotante" style="left: 24%; animation-delay: 2s;">💚</div>
+  <div class="flotante" style="left: 40%; animation-delay: 4s;">🌸</div>
+  <div class="flotante" style="left: 56%; animation-delay: 1s;">✨</div>
+  <div class="flotante" style="left: 72%; animation-delay: 3s;">🍃</div>
+  <div class="flotante" style="left: 88%; animation-delay: 5s;">💛</div>
+
+  <script>
+    /*
+      =====================================================
+      EDITA SOLO ESTA PARTE
+      =====================================================
+    */
+    const CONFIGURACION_DEL_REGALO = {
+      tituloPestana: "Flor digital para ti",
+
+      tituloInicio: "🌿💚 Tengo una flor digital para ti 💚🌿",
+      mensajeInicio: "Si nunca te enviaron una flor digital, aquí tienes tu flor digital, enviada con mucho cariño.",
+      textoBoton: "Ver regalo",
+
+      tituloPrincipal: "🌸 Tu flor digital 🌸",
+      subtituloPrincipal: "Un detalle bonito en un día cualquiera",
+
+      mensajePrincipal: "Si nunca te enviaron una flor digital,\naquí tienes tu flor digital 💚",
+      mensajeSecundario: "Este pequeño capibara quiso traerte una flor para sacarte una sonrisa. A veces los detalles más simples son los que más bonito se sienten.",
+      notaMusica: "La música comienza después de tocar “Ver regalo”.",
+
+      /*
+        Coloca aquí el ID de YouTube de:
+        Déjame Un Beso - Salsa Kids
+        Ejemplo:
+        https://www.youtube.com/watch?v=ABC123XYZ
+        ID = ABC123XYZ
+      */
+      youtubeVideoID: "REEMPLAZA_AQUI_EL_ID"
+    };
+
+    /*
+      =====================================================
+      DESDE AQUÍ YA NO NECESITAS MODIFICAR NADA
+      =====================================================
+    */
+    document.title = CONFIGURACION_DEL_REGALO.tituloPestana;
+
+    document.getElementById("tituloInicio").innerHTML = CONFIGURACION_DEL_REGALO.tituloInicio;
+    document.getElementById("mensajeInicio").innerHTML = CONFIGURACION_DEL_REGALO.mensajeInicio;
+    document.getElementById("textoBoton").innerHTML = CONFIGURACION_DEL_REGALO.textoBoton;
+
+    document.getElementById("tituloPrincipal").innerHTML = CONFIGURACION_DEL_REGALO.tituloPrincipal;
+    document.getElementById("subtituloPrincipal").innerHTML = CONFIGURACION_DEL_REGALO.subtituloPrincipal;
+    document.getElementById("mensajePrincipal").innerHTML =
+      CONFIGURACION_DEL_REGALO.mensajePrincipal.replace(/\n/g, "<br>");
+    document.getElementById("mensajeSecundario").innerHTML = CONFIGURACION_DEL_REGALO.mensajeSecundario;
+    document.getElementById("notaMusica").innerHTML = CONFIGURACION_DEL_REGALO.notaMusica;
+
+    function abrirRegalo() {
+      const inicio = document.getElementById("inicio");
+      const contenido = document.getElementById("contenido");
+
+      inicio.classList.add("ocultar");
+
+      setTimeout(() => {
+        inicio.style.display = "none";
+        contenido.style.display = "flex";
+      }, 700);
+
+      const videoID = CONFIGURACION_DEL_REGALO.youtubeVideoID;
+
+      if (videoID && videoID !== "REEMPLAZA_AQUI_EL_ID") {
+        document.getElementById("player").innerHTML = `
+          <iframe
+            width="1"
+            height="1"
+            src="https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}"
+            title="Música de fondo"
+            frameborder="0"
+            allow="autoplay; encrypted-media">
+          </iframe>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
