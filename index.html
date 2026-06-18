@@ -14,14 +14,14 @@
     body {
       margin: 0;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
       font-family: "Segoe UI", Arial, sans-serif;
       text-align: center;
       color: white;
       background:
         radial-gradient(circle at 20% 12%, rgba(255,255,255,0.35), transparent 24%),
         radial-gradient(circle at 80% 18%, rgba(173,255,220,0.25), transparent 30%),
-        linear-gradient(180deg, #8fd3ff 0%, #72c07a 52%, #3f8f46 100%);
+        linear-gradient(180deg, #9be7ff 0%, #77c878 52%, #3d8f47 100%);
     }
 
     .cielo-brillo {
@@ -521,30 +521,6 @@
       font-size: 13px;
     }
 
-    .boton-musica {
-      margin-top: 15px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #ffffff, #d9ffe0);
-      color: #2f7d3d;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
-    }
-
-    .boton-musica:hover {
-      transform: translateY(-2px) scale(1.03);
-    }
-
-    #player {
-      margin-top: 12px;
-      display: none;
-      border-radius: 18px;
-      overflow: hidden;
-    }
-
     .flotante {
       position: fixed;
       bottom: -60px;
@@ -564,6 +540,16 @@
       box-shadow: 0 0 14px rgba(255,255,255,0.95);
       z-index: 2;
       animation: chispa 6s linear infinite;
+    }
+
+    #player {
+      position: fixed;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
     }
 
     @keyframes aparecer {
@@ -730,10 +716,6 @@
       <p class="mensaje-secundario" id="mensajeSecundario"></p>
       <p class="nota" id="notaMusica"></p>
 
-      <button onclick="reproducirMusica()" class="boton-musica">
-        🎵 Reproducir música
-      </button>
-
       <div id="player"></div>
     </section>
   </main>
@@ -764,7 +746,7 @@
 
       mensajePrincipal: "Si nunca te enviaron una flor digital,\naquí tienes tu flor digital 💚",
       mensajeSecundario: "Este pequeño oso quiso traerte una flor para sacarte una sonrisa. A veces los detalles más simples son los que más bonito se sienten.",
-      notaMusica: "Después de abrir el regalo, toca el botón “Reproducir música”.",
+      notaMusica: "La música empieza automáticamente después de tocar “Ver regalo”.",
 
       /*
         Coloca aquí el ID de YouTube de:
@@ -808,28 +790,26 @@
         inicio.style.display = "none";
         contenido.style.display = "flex";
       }, 700);
+
+      reproducirMusicaDeFondo();
     }
 
-    function reproducirMusica() {
+    function reproducirMusicaDeFondo() {
       const videoID = CONFIGURACION_DEL_REGALO.youtubeVideoID;
 
-      if (!videoID || videoID === "uQGatx-kUmk&list=RDuQGatx-kUmk&start_radio=1") {
-        alert("Falta colocar el ID del video de YouTube.");
+      if (!videoID || videoID === "psunEt-mqYI&list=RDpsunEt-mqYI&start_radio=1") {
+        console.log("Falta colocar el ID del video de YouTube.");
         return;
       }
 
-      const player = document.getElementById("player");
-      player.style.display = "block";
-
-      player.innerHTML = `
+      document.getElementById("player").innerHTML = `
         <iframe
-          width="100%"
-          height="120"
-          src="https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}"
+          width="1"
+          height="1"
+          src="https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}&controls=0&rel=0"
           title="Música de fondo"
           frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
+          allow="autoplay; encrypted-media">
         </iframe>
       `;
     }
