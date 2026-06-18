@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Flor digital para ti</title>
 
   <style>
@@ -56,7 +57,6 @@
       background: rgba(255,255,255,0.75);
       border-radius: 50px;
       z-index: 1;
-      filter: blur(0.3px);
       animation: moverNube 20s linear infinite;
     }
 
@@ -232,7 +232,7 @@
 
     .escena {
       width: 360px;
-      height: 345px;
+      height: 350px;
       margin: 0 auto;
       position: relative;
     }
@@ -248,150 +248,190 @@
       filter: blur(1px);
     }
 
-    .capibara {
+    .oso {
       position: absolute;
-      left: 75px;
-      bottom: 28px;
-      width: 210px;
-      height: 190px;
+      left: 92px;
+      bottom: 26px;
+      width: 180px;
+      height: 220px;
       animation: respirar 3s infinite ease-in-out;
       filter: drop-shadow(0 18px 14px rgba(0,0,0,0.22));
     }
 
-    .cuerpo {
-      position: absolute;
-      left: 16px;
-      bottom: 8px;
-      width: 180px;
-      height: 118px;
-      background: linear-gradient(180deg, #b98559, #93623f);
-      border-radius: 70px 90px 70px 70px;
-      z-index: 1;
-    }
-
-    .panza {
-      position: absolute;
-      left: 58px;
-      bottom: 26px;
-      width: 86px;
-      height: 60px;
-      background: rgba(241, 212, 182, 0.75);
-      border-radius: 50%;
-      z-index: 2;
-    }
-
     .cabeza {
       position: absolute;
-      right: 12px;
-      top: 18px;
-      width: 86px;
-      height: 82px;
-      background: linear-gradient(180deg, #b98559, #93623f);
-      border-radius: 32px 40px 34px 30px;
-      z-index: 3;
+      left: 38px;
+      top: 0;
+      width: 105px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #c89b6d, #9b6540);
+      z-index: 5;
     }
 
     .oreja {
       position: absolute;
-      width: 18px;
-      height: 18px;
-      background: #8c5b38;
-      border-radius: 50%;
-      top: -4px;
-    }
-
-    .oreja.uno { left: 14px; }
-    .oreja.dos { right: 14px; }
-
-    .ojo {
-      position: absolute;
-      top: 28px;
-      width: 7px;
-      height: 9px;
-      border-radius: 50%;
-      background: #2e1d14;
-      animation: parpadear 4s infinite;
-    }
-
-    .ojo.uno { left: 22px; }
-    .ojo.dos { right: 22px; }
-
-    .nariz {
-      position: absolute;
-      left: 29px;
-      bottom: 20px;
-      width: 28px;
-      height: 18px;
-      border-radius: 50%;
-      background: #6e442c;
-    }
-
-    .nariz::before,
-    .nariz::after {
-      content: "";
-      position: absolute;
-      top: 6px;
-      width: 4px;
-      height: 6px;
-      border-radius: 50%;
-      background: #3c2619;
-    }
-
-    .nariz::before { left: 8px; }
-    .nariz::after { right: 8px; }
-
-    .boca {
-      position: absolute;
-      left: 30px;
-      bottom: 10px;
-      width: 26px;
-      height: 10px;
-      border-bottom: 2px solid #5c3927;
-      border-radius: 50%;
-    }
-
-    .pata {
-      position: absolute;
-      bottom: 0;
-      width: 30px;
-      height: 48px;
-      background: linear-gradient(180deg, #a57149, #845737);
-      border-radius: 18px;
-      z-index: 0;
-    }
-
-    .pata.uno { left: 46px; }
-    .pata.dos { left: 88px; }
-    .pata.tres { right: 58px; }
-    .pata.cuatro { right: 20px; }
-
-    .brazo {
-      position: absolute;
-      bottom: 42px;
+      top: -8px;
       width: 34px;
-      height: 56px;
-      background: linear-gradient(180deg, #a8744c, #875936);
-      border-radius: 18px;
+      height: 34px;
+      border-radius: 50%;
+      background: #9b6540;
       z-index: 4;
     }
 
+    .oreja.izq {
+      left: 34px;
+    }
+
+    .oreja.der {
+      right: 34px;
+    }
+
+    .oreja::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: #f4c9a8;
+    }
+
+    .hocico {
+      position: absolute;
+      left: 31px;
+      top: 50px;
+      width: 44px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f8dbc2;
+      z-index: 6;
+    }
+
+    .ojo {
+      position: absolute;
+      top: 38px;
+      width: 8px;
+      height: 11px;
+      border-radius: 50%;
+      background: #2e1d14;
+      z-index: 7;
+      animation: parpadear 4s infinite;
+    }
+
+    .ojo.izq {
+      left: 32px;
+    }
+
+    .ojo.der {
+      right: 32px;
+    }
+
+    .nariz {
+      position: absolute;
+      left: 47px;
+      top: 58px;
+      width: 12px;
+      height: 9px;
+      border-radius: 50%;
+      background: #5e3b2a;
+      z-index: 8;
+    }
+
+    .boca {
+      position: absolute;
+      left: 43px;
+      top: 68px;
+      width: 20px;
+      height: 9px;
+      border-bottom: 2px solid #704535;
+      border-radius: 50%;
+      z-index: 8;
+    }
+
+    .cuerpo {
+      position: absolute;
+      left: 24px;
+      top: 78px;
+      width: 132px;
+      height: 130px;
+      border-radius: 62px 62px 45px 45px;
+      background: linear-gradient(180deg, #c89b6d, #9b6540);
+      z-index: 2;
+    }
+
+    .panza {
+      position: absolute;
+      left: 50px;
+      top: 112px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(248, 219, 194, 0.75);
+      z-index: 3;
+    }
+
+    .brazo {
+      position: absolute;
+      top: 112px;
+      width: 42px;
+      height: 82px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #b88458, #875936);
+      z-index: 6;
+    }
+
     .brazo.izq {
-      left: 52px;
-      transform: rotate(24deg);
+      left: 22px;
+      transform: rotate(34deg);
     }
 
     .brazo.der {
-      right: 34px;
-      transform: rotate(-30deg);
+      right: 22px;
+      transform: rotate(-34deg);
+    }
+
+    .mano {
+      position: absolute;
+      width: 34px;
+      height: 26px;
+      border-radius: 50%;
+      background: #875936;
+      top: 170px;
+      z-index: 9;
+    }
+
+    .mano.izq {
+      left: 63px;
+    }
+
+    .mano.der {
+      right: 63px;
+    }
+
+    .pierna {
+      position: absolute;
+      bottom: 0;
+      width: 46px;
+      height: 55px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #a57149, #845737);
+      z-index: 1;
+    }
+
+    .pierna.izq {
+      left: 38px;
+    }
+
+    .pierna.der {
+      right: 38px;
     }
 
     .flor {
       position: absolute;
-      left: 125px;
-      bottom: 78px;
+      left: 55px;
+      top: 83px;
       width: 70px;
-      height: 110px;
-      z-index: 5;
+      height: 130px;
+      z-index: 7;
       animation: moverFlor 3.5s infinite ease-in-out;
     }
 
@@ -400,39 +440,39 @@
       left: 31px;
       bottom: 0;
       width: 8px;
-      height: 68px;
+      height: 86px;
       background: linear-gradient(180deg, #8ff08e, #19813a);
       border-radius: 10px;
     }
 
     .hoja {
       position: absolute;
-      width: 28px;
-      height: 14px;
+      width: 30px;
+      height: 15px;
       background: linear-gradient(135deg, #9df29b, #2e8d45);
       border-radius: 20px 0 20px 0;
     }
 
     .hoja.uno {
       left: 5px;
-      bottom: 28px;
+      bottom: 36px;
       transform: rotate(-28deg);
     }
 
     .hoja.dos {
       right: 4px;
-      bottom: 42px;
+      bottom: 50px;
       transform: rotate(205deg);
     }
 
     .petalo-flor {
       position: absolute;
-      width: 26px;
-      height: 42px;
-      left: 22px;
+      width: 28px;
+      height: 44px;
+      left: 21px;
       top: 0;
       border-radius: 90% 90% 45% 45%;
-      transform-origin: 13px 34px;
+      transform-origin: 14px 36px;
       background:
         radial-gradient(circle at 35% 18%, rgba(255,255,255,0.9), transparent 22%),
         linear-gradient(180deg, #ffd6ea 0%, #ff68b1 55%, #cc2a7d 100%);
@@ -448,7 +488,7 @@
 
     .centro-flor {
       position: absolute;
-      top: 22px;
+      top: 23px;
       left: 21px;
       width: 28px;
       height: 28px;
@@ -522,7 +562,7 @@
 
     @keyframes moverFlor {
       0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(3deg); }
+      50% { transform: rotate(4deg); }
     }
 
     @keyframes parpadear {
@@ -588,6 +628,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="cielo-brillo"></div>
@@ -622,26 +663,29 @@
       <div class="escena">
         <div class="pasto"></div>
 
-        <div class="capibara">
+        <div class="oso">
+          <div class="oreja izq"></div>
+          <div class="oreja der"></div>
+
+          <div class="cabeza">
+            <div class="ojo izq"></div>
+            <div class="ojo der"></div>
+            <div class="hocico"></div>
+            <div class="nariz"></div>
+            <div class="boca"></div>
+          </div>
+
           <div class="cuerpo"></div>
           <div class="panza"></div>
-
-          <div class="pata uno"></div>
-          <div class="pata dos"></div>
-          <div class="pata tres"></div>
-          <div class="pata cuatro"></div>
 
           <div class="brazo izq"></div>
           <div class="brazo der"></div>
 
-          <div class="cabeza">
-            <div class="oreja uno"></div>
-            <div class="oreja dos"></div>
-            <div class="ojo uno"></div>
-            <div class="ojo dos"></div>
-            <div class="nariz"></div>
-            <div class="boca"></div>
-          </div>
+          <div class="mano izq"></div>
+          <div class="mano der"></div>
+
+          <div class="pierna izq"></div>
+          <div class="pierna der"></div>
 
           <div class="flor">
             <div class="petalo-flor"></div>
@@ -669,7 +713,7 @@
   <div class="flotante" style="left: 10%; animation-delay: 0s;">🌿</div>
   <div class="flotante" style="left: 24%; animation-delay: 2s;">💚</div>
   <div class="flotante" style="left: 40%; animation-delay: 4s;">🌸</div>
-  <div class="flotante" style="left: 56%; animation-delay: 1s;">✨</div>
+  <div class="flotante" style="left: 56%; animation-delay: 1s;">🧸</div>
   <div class="flotante" style="left: 72%; animation-delay: 3s;">🍃</div>
   <div class="flotante" style="left: 88%; animation-delay: 5s;">💛</div>
 
@@ -679,6 +723,7 @@
       EDITA SOLO ESTA PARTE
       =====================================================
     */
+
     const CONFIGURACION_DEL_REGALO = {
       tituloPestana: "Flor digital para ti",
 
@@ -690,12 +735,13 @@
       subtituloPrincipal: "Un detalle bonito en un día cualquiera",
 
       mensajePrincipal: "Si nunca te enviaron una flor digital,\naquí tienes tu flor digital 💚",
-      mensajeSecundario: "Este pequeño capibara quiso traerte una flor para sacarte una sonrisa. A veces los detalles más simples son los que más bonito se sienten.",
+      mensajeSecundario: "Este pequeño oso quiso traerte una flor para sacarte una sonrisa. A veces los detalles más simples son los que más bonito se sienten.",
       notaMusica: "La música comienza después de tocar “Ver regalo”.",
 
       /*
         Coloca aquí el ID de YouTube de:
         Déjame Un Beso - Salsa Kids
+
         Ejemplo:
         https://www.youtube.com/watch?v=ABC123XYZ
         ID = ABC123XYZ
@@ -708,6 +754,7 @@
       DESDE AQUÍ YA NO NECESITAS MODIFICAR NADA
       =====================================================
     */
+
     document.title = CONFIGURACION_DEL_REGALO.tituloPestana;
 
     document.getElementById("tituloInicio").innerHTML = CONFIGURACION_DEL_REGALO.tituloInicio;
@@ -748,5 +795,6 @@
       }
     }
   </script>
+
 </body>
 </html>
